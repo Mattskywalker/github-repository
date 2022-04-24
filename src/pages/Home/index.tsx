@@ -22,9 +22,17 @@ const Home = () => {
     }, [])// component did mount
 
 
+
+
     function fetchRespositories() {
-        api.get('/repositories').then((response) => {
-            setRepositories(response.data);
+        api.get<Array<IRepository>>('/repositories').then((response) => {
+            setRepositories([{
+                html_url: 'https://github.com/Mattskywalker/github-repository',
+                description: "app that shows GitHub repositories",
+                full_name: "Mattskywalker/github-repository",
+                id: 101,
+                name: 'github-repository'
+            }, ...response.data]);
         }).catch((error) => {
             console.error(error);
         })
@@ -59,27 +67,32 @@ const Home = () => {
 
     return (
         <div className="Home" >
+            <title>Home</title>
             <div className="title" ><Typography variant="h4" >Repositórios</Typography></div>
 
-            {listItems(repositories, page, MAX_ITEM_PAGE).map((repo) => (
-                <div className="repo-card" key={repo.id} >
-                    <div className="img-container" ><img style={{ width: '210px' }} alt="repo-img" src={`https://avatars.dicebear.com/api/jdenticon/${repo.name}.svg`} /></div>
-                    <div className="text-container" >
-                        <div>
-                            <Typography variant="h4" >{repo.full_name}</Typography>
+            <div className="card-container" >
+                {listItems(repositories, page, MAX_ITEM_PAGE)?.map((repo) =>
+                    repo && (
+                        <div className="repo-card" key={repo?.id} >
+                            <div className="img-container" ><img style={{ width: '210px' }} alt="repo-img" src={`https://avatars.dicebear.com/api/jdenticon/${repo?.name}.svg`} /></div>
+                            <div className="text-container" >
+                                <div>
+                                    <Typography variant="h4" >{repo?.full_name}</Typography>
 
-                            <div className="description-area" >
-                                <Typography style={{ fontSize: '18px', justifyContent: 'left' }} >{repo.description}</Typography>
+                                    <div className="description-area" >
+                                        <Typography style={{ fontSize: '18px', justifyContent: 'left' }} >{repo?.description}</Typography>
+                                    </div>
+
+                                </div>
+
+                                <div className="footer" ><Typography style={{ fontSize: '18px', justifyContent: 'left' }} >Link: <a href={repo?.html_url} >{repo?.html_url}</a></Typography><IconButton onClick={() => { handleFavorite(findRepo(repo?.id)) }} >{isFavorite(repo?.id) ? <Favorite style={{ color: '#FF0000' }} /> : <FavoriteBorder />}</IconButton></div>
                             </div>
-
                         </div>
+                    )
+                )}
+            </div>
 
-                        <div className="footer" ><Typography style={{ fontSize: '18px', justifyContent: 'left' }} >Link: <a href={repo.html_url} >{repo.html_url}</a></Typography><IconButton onClick={() => { handleFavorite(findRepo(repo.id)) }} >{isFavorite(repo.id) ? <Favorite style={{ color: '#FF0000' }} /> : <FavoriteBorder />}</IconButton></div>
-                    </div>
-                </div>
-            ))}
-
-            <footer><Pagination page={page} onChange={handlePage} count={Number((repositories.length / MAX_ITEM_PAGE)) + (repositories.length % 2)} /></footer>
+            <footer><Pagination page={page} onChange={handlePage} count={Math.ceil(repositories.length / MAX_ITEM_PAGE)} /></footer>
 
         </div >
     )
