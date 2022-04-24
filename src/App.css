@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  width: 100%;
+  height: 100vh;
 }
 
 .App-logo {
@@ -32,7 +34,28 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+
+
+}
+
+body::-webkit-scrollbar-track {
+  background: #808080;
+  border-radius: 8px;
+
+
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #282c34;
+
+  border-radius: 20px;
+
 }
