@@ -1,0 +1,22 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    height: 64px;
+    background-color: #000000;
+    box-shadow: 0px 1px 3px 1px #000000;
+    position: relative;
+    padding: 0px 18px;
+}
+
+.area-button {
+    width: 40%;
+}
+
+.fav-button {
+    width: 280px;
+    font-size: larger;
+
+}
