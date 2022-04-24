@@ -25,6 +25,7 @@ const Favorites = () => {
 
     return (
         <div className="Favorites" >
+            <title>Favorites</title>
             <div className="title" >
                 <IconButton onClick={() => {
                     navigate('/')
